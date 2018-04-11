@@ -1,4 +1,4 @@
-package lectorExcels;
+package reader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,7 +55,7 @@ public class ExcelReader {
             for(Cell cell: row) {
                 Clase clase = construirClase(dataFormatter, cell);
                 ret.add(clase);
-                //String cellValue = dataFormatter.formatCellValue(cell);
+               // String cellValue = dataFormatter.formatCellValue(cell);
             }
         }
         try {

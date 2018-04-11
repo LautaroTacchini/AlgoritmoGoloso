@@ -1,4 +1,4 @@
-package lectorExcels;
+package reader;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
