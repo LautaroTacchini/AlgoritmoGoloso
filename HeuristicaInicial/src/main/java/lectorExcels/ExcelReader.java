@@ -5,12 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -19,15 +17,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import negocio.Builder;
+import negocio.Clase;
+import negocio.DiaSemana;
 
-public class Reader {
+public class ExcelReader {
 	File archivo;
 	FileInputStream input;
 	Workbook workbook;
-	Builder builder;
 	
-	public Reader(String path) {
+	public ExcelReader(String path) {
 		archivo = new File (path);
 		
 		try {
@@ -42,44 +40,57 @@ public class Reader {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-        
+		}     
 
 	}
 	
-	public List<String> read() {		
-		List<Fila> ret = new ArrayList<Fila>();
-		List<String> retString = new ArrayList<String>();
+	public List<Clase> read() {		
+		List<Clase> ret = new ArrayList<Clase>();
 
-		
-		for(Sheet sheet: workbook) {
-            System.out.println("=> " + sheet.getSheetName());
-        }
-		
-		// Getting the Sheet at index zero
-        Sheet sheet = workbook.getSheetAt(0);
+        Sheet sheet = workbook.getSheetAt(2);
 
-        // Create a DataFormatter to format and get each cell's value as String
         DataFormatter dataFormatter = new DataFormatter();
-
-        // 2. Or you can use a for-each loop to iterate over the rows and columns
-        System.out.println("\n\nIterating over Rows and Columns using for-each loop\n");
+        
         for (Row row: sheet) {
             for(Cell cell: row) {
-                String cellValue = dataFormatter.formatCellValue(cell);
-                System.out.print(cellValue + "\t");
-                retString.add(cellValue);
+                Clase clase = construirClase(dataFormatter, cell);
+                ret.add(clase);
+                //String cellValue = dataFormatter.formatCellValue(cell);
             }
-            System.out.println();
         }
         try {
 			workbook.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}		
+		return ret;
+	}
+
+	private Clase construirClase(DataFormatter dataFormatter, Cell cell) {
+		Date horaDesde = null;
+		Date horaHasta = null;
+		DiaSemana diaSemana = null;
+		int kantInscriptos = 0;
+		
+		if(cell.getRowIndex() >= 2) {
+		    if(cell.getColumnIndex() == 3){
+		    	diaSemana = DiaSemana.parse(cell.getStringCellValue());
+		    }            
+		    
+		    if(cell.getColumnIndex() == 7) {
+		    	horaDesde = cell.getDateCellValue();
+		    }
+		    
+		    if(cell.getColumnIndex() == 8) {
+		    	horaHasta = cell.getDateCellValue();
+		    }
+		    
+		    if(cell.getColumnIndex() == 11) {
+		    	kantInscriptos = (int) cell.getNumericCellValue();
+		    }
 		}
 		
-		return retString;
-	}
-	
+		return new Clase(cell.getRowIndex(),horaDesde,horaHasta,diaSemana,kantInscriptos);
+	}	
 }
 
