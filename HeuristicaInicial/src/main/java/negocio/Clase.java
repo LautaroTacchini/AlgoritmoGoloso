@@ -12,8 +12,9 @@ public class Clase {
 	DiaSemana diaSemana;
 	int cantidadInscriptos;
 
-	public Clase(Integer id, Date horaDesde, Date horaHasta, DiaSemana d, int cantInscriptos) {
+	public Clase(Integer id,String nombre, Date horaDesde, Date horaHasta, DiaSemana d, int cantInscriptos) {
 		this.id = id;
+		this.nombre = nombre;
 		assert horaDesde.after(horaHasta);
 		this.horaDesde = horaDesde;
 		this.horaHasta = horaHasta;

@@ -10,6 +10,6 @@ public class Main {
 //		fileManager.recorrerArchivos();
 		
 		ExcelReader reader = new ExcelReader("instancias/pedidos-2018-1.xls");
-		reader.read();
+		reader.readClases("Pedidos");
 	}
 }
