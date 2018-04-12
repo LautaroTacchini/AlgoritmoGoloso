@@ -16,9 +16,10 @@ public class Asignador {
 		clases = reader.readClases("Pedidos");
 		clases = reader.readClases("Aulas");
 		
+		for(Asignacion asignacion: asignaciones) {
 		
+		}
 	}
-	
 	
 
 }
