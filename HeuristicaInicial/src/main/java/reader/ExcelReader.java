@@ -85,6 +85,7 @@ public class ExcelReader {
         System.out.println(aulas.get(0));
 		return aulas;
 	}
+	
 
 	private Clase construirClase(DataFormatter dataFormatter, Cell cell) {
 		String nombre = null;
@@ -92,6 +93,7 @@ public class ExcelReader {
 		Date horaHasta = null;
 		DiaSemana diaSemana = null;
 		int kantInscriptos = 0;
+		boolean preasignada = false;
 		
 		if(cell.getRowIndex() >= 2) {
 			
@@ -101,6 +103,9 @@ public class ExcelReader {
 		    if(cell.getColumnIndex() == 3)
 		    	diaSemana = DiaSemana.parse(cell.getStringCellValue());
 		   
+		    if(cell.getColumnIndex() == 6 && cell.getNumericCellValue() != -1) 
+		    		preasignada = true;
+		    
 		    if(cell.getColumnIndex() == 7) 
 		    	horaDesde = cell.getDateCellValue();
 		    
@@ -111,7 +116,7 @@ public class ExcelReader {
 		    	kantInscriptos = (int) cell.getNumericCellValue();		    
 		}
 		
-		return new Clase(cell.getRowIndex(),nombre,horaDesde,horaHasta,diaSemana,kantInscriptos);
+		return new Clase(cell.getRowIndex(),nombre,horaDesde,horaHasta,diaSemana,kantInscriptos,preasignada);
 	}	
 	
 	
