@@ -11,9 +11,8 @@ public class Clase {
 	// Nota: para Calendar.DAY_OF_WEEK, SUNDAY == 1.
 	DiaSemana diaSemana;
 	int cantidadInscriptos;
-	boolean preasignada;
 
-	public Clase(Integer id,String nombre, Date horaDesde, Date horaHasta, DiaSemana d, int cantInscriptos, boolean preasignada) {
+	public Clase(Integer id,String nombre, Date horaDesde, Date horaHasta, DiaSemana d, int cantInscriptos) {
 		this.id = id;
 		this.nombre = nombre;
 		assert horaDesde.after(horaHasta);
@@ -22,7 +21,6 @@ public class Clase {
 		diaSemana = d;
 		assert 0 <= cantInscriptos;
 		cantidadInscriptos = cantInscriptos;
-		this.preasignada = preasignada;
 	}
 	
 	Intervalo minutoInicial() {

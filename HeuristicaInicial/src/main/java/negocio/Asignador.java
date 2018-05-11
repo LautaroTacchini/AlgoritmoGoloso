@@ -39,7 +39,7 @@ public class Asignador {
 			List<Aula> aulas;
 			aulas = reader.readAulas("Aulas");
 			for(Aula a: aulas) {
-				if(a.capacidad <= kant + 5) {//MAS CHANGUI DE TOLERACIA QUE HABRIA QUE SACARLO DEL EXCEL.
+				if(c.puedeUsar(a)) {//MAS CHANGUI DE TOLERACIA QUE HABRIA QUE SACARLO DEL EXCEL.
 					if(!(map.get(a).get(0)) && !(map.get(a).get(1))) {// Hora de inicio, todas las horas en el medio hasta hora de fin.
 						//asignar.
 					}

@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import negocio.Asignacion;
 import negocio.Aula;
 import negocio.Clase;
 import negocio.DiaSemana;
@@ -54,7 +55,7 @@ public class ExcelReader {
         
         for (Row row: sheet) {
             for(Cell cell: row) {
-                Clase clase = construirClase(dataFormatter, cell);
+                Clase clase = construirClase( dataFormatter, cell);
                 clases.add(clase);
             }
         }
@@ -93,7 +94,7 @@ public class ExcelReader {
 		Date horaHasta = null;
 		DiaSemana diaSemana = null;
 		int kantInscriptos = 0;
-		boolean preasignada = false;
+		int aula = 0;
 		
 		if(cell.getRowIndex() >= 2) {
 			
@@ -103,8 +104,8 @@ public class ExcelReader {
 		    if(cell.getColumnIndex() == 3)
 		    	diaSemana = DiaSemana.parse(cell.getStringCellValue());
 		   
-		    if(cell.getColumnIndex() == 6 && cell.getNumericCellValue() != -1) 
-		    		preasignada = true;
+		    if(cell.getColumnIndex() == 6) 
+		    	aula = (int) cell.getNumericCellValue();
 		    
 		    if(cell.getColumnIndex() == 7) 
 		    	horaDesde = cell.getDateCellValue();
@@ -115,8 +116,10 @@ public class ExcelReader {
 		    if(cell.getColumnIndex() == 11) 
 		    	kantInscriptos = (int) cell.getNumericCellValue();		    
 		}
+		Clase clase = new Clase(cell.getRowIndex(),nombre,horaDesde,horaHasta,diaSemana,kantInscriptos);
 		
-		return new Clase(cell.getRowIndex(),nombre,horaDesde,horaHasta,diaSemana,kantInscriptos,preasignada);
+//		Asignacion asignacion = new Asignacion(clase,aula);
+		return clase ;
 	}	
 	
 	
