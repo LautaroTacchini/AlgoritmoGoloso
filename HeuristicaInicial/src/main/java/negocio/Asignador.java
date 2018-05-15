@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import reader.ExcelReader;
+import xlsImpl.ExcelReader;
 
 public class Asignador {
 	
@@ -20,7 +20,7 @@ public class Asignador {
 		aulas = reader.readAulas("Aulas");
 		for(Aula a: aulas) {
 			BitSet bitSet = new BitSet();
-			bitSet.set(336);// Todos los dias de la semana, de lunes a domingo,de 0 a 24 con intervalos de 30 min.
+			bitSet.set(24*2*7); // Todos los dias de la semana, de lunes a domingo,de 0 a 24 con intervalos de 30 min.
 			map.put(a, bitSet);
 		}
 	}
@@ -32,10 +32,7 @@ public class Asignador {
 	public void asignar() {
 		clases = reader.readClases("Pedidos");
 		for(Clase c: clases) {	
-			DiaSemana diaSemana = c.diaSemana;
-			int kant = c.cantidadInscriptos;
-			Date horaDesde = c.horaDesde;
-			Date horaHasta = c.horaHasta;
+	
 			List<Aula> aulas;
 			aulas = reader.readAulas("Aulas");
 			for(Aula a: aulas) {

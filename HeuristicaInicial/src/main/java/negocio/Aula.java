@@ -2,10 +2,14 @@ package negocio;
 
 public class Aula implements Comparable<Aula>{
 	Integer id;
+	int pab;
+	int numero;
 	int capacidad;
 	
-	public Aula(int id, int capacidad){
-		this.id  = id;
+	public Aula(Integer pab, Integer numero, int capacidad){
+		this.id  = Integer.valueOf(pab.toString() + numero.toString());
+		this.pab = pab;
+		this.numero = numero;
 		this.capacidad = capacidad;
 	}
 	

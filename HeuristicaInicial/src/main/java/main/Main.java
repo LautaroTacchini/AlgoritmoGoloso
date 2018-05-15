@@ -1,6 +1,6 @@
 package main;
 
-import reader.ExcelReader;
+import xlsImpl.ExcelReader;
 
 public class Main {
 	
