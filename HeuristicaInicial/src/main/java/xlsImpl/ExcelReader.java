@@ -58,6 +58,7 @@ public class ExcelReader {
                 Asignacion asignacion = construirAsignacion(dataFormatter, cell);
                 Clase clase = asignacion.getClase();
                 clases.add(clase);
+                System.out.println(clase);
             }
         }
         try {
@@ -112,7 +113,7 @@ public class ExcelReader {
 	
 
 	private Asignacion construirAsignacion(DataFormatter dataFormatter, Cell cell) {
-		String nombre = null;
+		String nombre = "";
 		Date horaDesde = null;
 		Date horaHasta = null;
 		DiaSemana diaSemana = null;
@@ -122,16 +123,17 @@ public class ExcelReader {
 		
 		if(cell.getRowIndex() >= 2) { 
 			
-			if(cell.getColumnIndex() == 1)
+			if(cell.getColumnIndex() == 0) {
 			   	nombre = cell.getStringCellValue();
-	 
+			}
+			
 		    if(cell.getColumnIndex() == 3)
 		    	diaSemana = DiaSemana.parse(cell.getStringCellValue());
 		    
 		    if(cell.getColumnIndex() == 4)
 		    	nroPabellon = (int) cell.getNumericCellValue();
 		    
-		    if(cell.getColumnIndex() == 6 && cell.getErrorCellValue()!=0) 
+		    if(cell.getColumnIndex() == 6) 
 		    	nroAula = (int) cell.getNumericCellValue();
 		    
 		    if(cell.getColumnIndex() == 7) 

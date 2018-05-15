@@ -11,5 +11,7 @@ public class Main {
 		
 		ExcelReader reader = new ExcelReader("instancias/pedidos-2018-1.xls");
 		reader.readClases("Pedidos");
+		reader.readClases("Aulas");
+
 	}
 }
