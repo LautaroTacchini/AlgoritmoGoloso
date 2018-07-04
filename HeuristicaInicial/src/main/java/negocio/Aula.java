@@ -16,4 +16,8 @@ public class Aula implements Comparable<Aula>{
 	public int compareTo(Aula that) {
 		return this.id.hashCode() - that.id.hashCode();
 	}
+	
+	public String toString() {
+		return id.toString();
+	}
 }

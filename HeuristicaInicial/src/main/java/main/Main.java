@@ -1,6 +1,6 @@
 package main;
 
-import xlsImpl.ExcelReader;
+import xlsImpl.SheetReader;
 
 public class Main {
 	
@@ -9,7 +9,7 @@ public class Main {
 //		FileManager fileManager = new FileManager("instancias");
 //		fileManager.recorrerArchivos();
 		
-		ExcelReader reader = new ExcelReader("instancias/pedidos-2018-1.xls");
-		reader.readClases("Pedidos");
+		SheetReader reader = new SheetReader("instancias/pedidos-2018-1-mod.xls");
+		reader.readLines("Pedidos");
 	}
 }

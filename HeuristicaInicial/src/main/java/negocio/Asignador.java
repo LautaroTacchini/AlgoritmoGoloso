@@ -1,15 +1,14 @@
 package negocio;
 
 import java.util.BitSet;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import xlsImpl.ExcelReader;
+import xlsImpl.SheetReader;
 
 public class Asignador {
 	
-	ExcelReader reader;
+	SheetReader reader;
 	List<Clase> clases;
 	
 	//ASIGNACIONES
@@ -26,11 +25,11 @@ public class Asignador {
 	}
 	
 	public void realizarPreasignaciones() {
-		// Recorrer las preasignaciones y tacharlas.
+		// TODO Recorrer las preasignaciones y tacharlas.
 	}
 	
 	public void asignar() {
-		clases = reader.readClases("Pedidos");
+
 		for(Clase c: clases) {	
 	
 			List<Aula> aulas;

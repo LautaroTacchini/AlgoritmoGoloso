@@ -16,5 +16,10 @@ public class Asignacion {
 	public Aula getAula() {
 		return aula;
 	}
+	
+	@Override
+	public String toString() {
+		return clase + "-" + aula;
+	}
 
 }
