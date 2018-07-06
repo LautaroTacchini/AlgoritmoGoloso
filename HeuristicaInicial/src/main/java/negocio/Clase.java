@@ -38,7 +38,7 @@ public class Clase {
 
 	int puntaje(Aula a) { return 0; }
 	
-	boolean puedeUsar(Aula aula) {
+	public boolean puedeUsar(Aula aula) {
 		return cantidadInscriptos <= aula.capacidad; 
 	}
 
