@@ -4,9 +4,9 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 
+import excel.module.SheetReader;
 import negocio.Aula;
 import negocio.Clase;
-import xlsImpl.SheetReader;
 
 public class Asignador {
 	
