@@ -8,10 +8,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
+import negocio.Aula;
 import negocio.Clase;
 import negocio.DiaSemana;
 
 public class RowProcessor {
+	
+	List<Object> aulas;
 	
 	public RowProcessor () {  }
 	
@@ -19,8 +22,8 @@ public class RowProcessor {
 		List<Object> lista = new ArrayList<Object>();
 		
 		for(Cell cell: row) {
-        	fill(cell, lista);
-        }
+			fill(cell, lista);
+		}
 		
 		return lista;
 	}
@@ -62,8 +65,6 @@ public class RowProcessor {
 		    	if(cell.getCellTypeEnum() != CellType.BLANK) {
 		    		nroAula = (int) cell.getNumericCellValue();
 		    		
-		    		//Aula aula = new Aula(nroAula,nroPabellon,0);
-		    		//asig.create(clase, aula);
 		    	}
 		    	else 
 		    		System.out.println("Preferencia");

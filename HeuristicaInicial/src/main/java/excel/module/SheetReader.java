@@ -54,28 +54,6 @@ public class SheetReader {
 			e.printStackTrace();
 		}	
 		return lista;
-	}	
-		
-//	public List<Aula> readAulas(String nombreHoja) {		
-//		List<Aula> aulas = new ArrayList<Aula>();
-//
-//        Sheet sheet = workbook.getSheet(nombreHoja);
-//        
-//        for (Row row: sheet) {
-//            for(Cell cell: row) {
-//            	if(construirAula(cell) != null) {
-//            		Aula aula = construirAula(cell);
-//                	aulas.add(aula);
-//            	}
-//            }
-//        }
-//        try {
-//			workbook.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}	
-//		return aulas;
-//	}
-	
+	}		
 }
 
