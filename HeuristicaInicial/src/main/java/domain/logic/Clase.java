@@ -1,4 +1,4 @@
-package negocio;
+package domain.logic;
 
 import java.util.Calendar;
 import java.util.Date;

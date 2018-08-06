@@ -1,4 +1,4 @@
-package negocio;
+package domain.logic;
 
 public class CodigoDeAula {
 	Integer pabellon;

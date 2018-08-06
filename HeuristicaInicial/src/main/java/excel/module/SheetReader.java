@@ -15,8 +15,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import core.AulaProcessor;
-import core.RowProcessor;
-import negocio.Aula;
+import core.ClaseProcessor;
+import domain.logic.Aula;
 
 public class SheetReader {
 	File archivo;
@@ -47,7 +47,7 @@ public class SheetReader {
 		Sheet sheet = workbook.getSheet(nombreHoja);
 		
 		for (Row row: sheet) {
-			RowProcessor rowProc = new RowProcessor();
+			ClaseProcessor rowProc = new ClaseProcessor();
 			lista = rowProc.process(row);
 		}
 		try {

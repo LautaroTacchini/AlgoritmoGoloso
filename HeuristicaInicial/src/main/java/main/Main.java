@@ -9,7 +9,7 @@ public class Main {
 		SheetReader reader = new SheetReader("instancias/pedidos-2018-1-mod.xls");
 		reader.read("Pedidos");
 		
-		reader.readAulas("Aulas");
+		reader.readAulas("Aulas1");
 	
 	}
 }

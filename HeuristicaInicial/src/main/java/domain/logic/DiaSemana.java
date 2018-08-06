@@ -1,4 +1,4 @@
-package negocio;
+package domain.logic;
 
 public enum DiaSemana {
 	DOMINGO, LUNES, MARTES, MIERCOLES, JUEVES, VIERNES, SABADO;

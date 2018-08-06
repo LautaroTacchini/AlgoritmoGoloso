@@ -1,4 +1,4 @@
-package negocio;
+package domain.logic;
 
 public class Preferencia {
 	Clase clase;

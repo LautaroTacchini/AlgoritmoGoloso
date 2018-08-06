@@ -1,4 +1,4 @@
-package negocio;
+package domain.logic;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

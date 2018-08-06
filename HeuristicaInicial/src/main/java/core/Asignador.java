@@ -4,9 +4,9 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 
+import domain.logic.Aula;
+import domain.logic.Clase;
 import excel.module.SheetReader;
-import negocio.Aula;
-import negocio.Clase;
 
 public class Asignador {
 	

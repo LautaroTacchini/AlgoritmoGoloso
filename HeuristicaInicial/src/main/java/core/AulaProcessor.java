@@ -5,7 +5,7 @@ import java.util.EnumMap;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
-import negocio.Aula;
+import domain.logic.Aula;
 
 public class AulaProcessor {
 	
@@ -35,27 +35,18 @@ public class AulaProcessor {
 			}
 		}
 		if(enumMap.size() != AulaEnum.values().length) {
-			System.out.println("------------");
-			System.out.println(enumMap);
-			System.out.println(enumMap.size());
-			System.out.println(AulaEnum.values());
-			System.out.println(AulaEnum.values().length);
+//			System.out.println("------------");
+//			System.out.println(enumMap);
+//			System.out.println(enumMap.size());
+//			System.out.println(AulaEnum.values());
+//			System.out.println(AulaEnum.values().length);
 			throw new RuntimeException();
 		}
 
 		return enumMap;
 	}
 	
-	@Deprecated
-	private boolean match(AulaEnum aulaEnum, Cell cell) {
-		System.out.println(aulaEnum.toString());
-		System.out.println(cell.getStringCellValue());
-		return aulaEnum.toString().equals(cell.getStringCellValue());
-//		return aulaEnum.equals(AulaEnum.parse(cell.getStringCellValue()));
-	}
-	
 	public Aula process(Row row) {
-		
 		if(row.getRowNum() == 0 || enumMap == null)
 			throw new RuntimeException();
 		
@@ -67,8 +58,6 @@ public class AulaProcessor {
 	}
 	
 	private int getInt(AulaEnum aulaEnum, Row row) {
-		Cell c = row.getCell(enumMap.get(aulaEnum));
-		System.out.println(c.toString());
 		return (int) row.getCell(enumMap.get(aulaEnum)).getNumericCellValue();
 	}
 }
