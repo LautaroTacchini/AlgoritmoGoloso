@@ -1,14 +1,11 @@
 package core;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 import negocio.Aula;
-import negocio.CodigoDeAula;
 
 public class AulaProcessor {
 	
@@ -17,65 +14,61 @@ public class AulaProcessor {
 	public AulaProcessor() { }	
 	
 	public EnumMap<AulaEnum, Integer> fillEnumMap(Row row) throws Exception {
-		if(row.getRowNum() > 0) {
+		if(row.getRowNum() > 0 || enumMap!= null) {
 			throw new RuntimeException();
 		}
 		
 		enumMap = new EnumMap<AulaEnum,Integer>(AulaEnum.class);
 				
 		for(Cell c: row) {
-			for(AulaEnum aulaEnum : AulaEnum.values()) {
-				if(match(aulaEnum,c)) {
-					if(enumMap.containsKey(aulaEnum))
-						throw new RuntimeException();					
-					else 
-						enumMap.put(aulaEnum, c.getColumnIndex());
+			// TODO Revisar si podemos ponerle parse a esto de aca abajo.
+			AulaEnum aulaEnum = AulaEnum.map.get(c.getStringCellValue());
+			
+			if(aulaEnum != null) {
+				if(enumMap.containsKey(aulaEnum)) {
+					throw new RuntimeException();	
 				}
+				enumMap.put(aulaEnum, c.getColumnIndex());
 			}
-		}			
-		if(enumMap.size() != AulaEnum.values().length) 
+			else {
+				System.out.println(c.getStringCellValue());
+			}
+		}
+		if(enumMap.size() != AulaEnum.values().length) {
+			System.out.println("------------");
+			System.out.println(enumMap);
+			System.out.println(enumMap.size());
+			System.out.println(AulaEnum.values());
+			System.out.println(AulaEnum.values().length);
 			throw new RuntimeException();
+		}
 
 		return enumMap;
 	}
 	
+	@Deprecated
 	private boolean match(AulaEnum aulaEnum, Cell cell) {
+		System.out.println(aulaEnum.toString());
+		System.out.println(cell.getStringCellValue());
 		return aulaEnum.toString().equals(cell.getStringCellValue());
+//		return aulaEnum.equals(AulaEnum.parse(cell.getStringCellValue()));
 	}
 	
-	public List<Aula> process(Row row){
+	public Aula process(Row row) {
 		
-		if(row.getRowNum() == 0)
+		if(row.getRowNum() == 0 || enumMap == null)
 			throw new RuntimeException();
-
-		List<Aula> lista = new ArrayList<Aula>();
-			
-		for(Cell cell: row) {
-		   	if(buildAula(cell) != null)
-            	lista.add(buildAula(cell));
-        }
-		return lista;
+		
+		int nroPab = getInt(AulaEnum.EDIFICIO,row);
+		int nroAula = getInt(AulaEnum.AULA,row);
+		int capacidad = getInt(AulaEnum.CAPACIDAD,row);
+		
+		return new Aula(nroPab, nroAula,capacidad);
 	}
 	
-	private Aula buildAula(Cell cell) {
-		Aula aula = null;
-
-		if(cell.getRowIndex() >= 1) {
-			int pab = 0;
-			int nro = 0;
-			int capacidad = 0;
-			
-			if(cell.getColumnIndex() == 0) 
-				pab = (int) cell.getNumericCellValue();
-						
-		    if(cell.getColumnIndex() == 1) 
-		    	nro = (int) cell.getNumericCellValue();
-		    
-		    if(cell.getColumnIndex() == 2)  
-		    	capacidad = (int) cell.getNumericCellValue();
-		    
-		    aula = new Aula(new CodigoDeAula(pab,nro),capacidad);
-		}		
-		return aula;
+	private int getInt(AulaEnum aulaEnum, Row row) {
+		Cell c = row.getCell(enumMap.get(aulaEnum));
+		System.out.println(c.toString());
+		return (int) row.getCell(enumMap.get(aulaEnum)).getNumericCellValue();
 	}
 }

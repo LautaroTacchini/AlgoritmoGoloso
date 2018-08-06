@@ -14,7 +14,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import core.AulaProcessor;
 import core.RowProcessor;
+import negocio.Aula;
 
 public class SheetReader {
 	File archivo;
@@ -54,6 +56,27 @@ public class SheetReader {
 			e.printStackTrace();
 		}	
 		return lista;
-	}		
+	}	
+	
+	public List<Aula> readAulas(String nombreHoja) throws Exception {		
+		List<Aula> lista = new ArrayList<Aula>();
+		
+		Sheet sheet = workbook.getSheet(nombreHoja);
+		
+		AulaProcessor aulasProc = new AulaProcessor();
+
+		for (Row row: sheet) {
+			if(row.getRowNum() == 0)
+				aulasProc.fillEnumMap(row);
+			else
+				lista.add(aulasProc.process(row));
+		}
+		try {
+			workbook.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+		return lista;
+	}	
 }
 

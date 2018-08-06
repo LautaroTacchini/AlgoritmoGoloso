@@ -3,10 +3,14 @@ package negocio;
 public class Aula implements Comparable<Aula>{
 	
 	CodigoDeAula codAula;
+	int pab;
+	int numero;
 	int capacidad;
 	
-	public Aula(CodigoDeAula codAula, int capacidad){
-		this.codAula = codAula;
+	public Aula(int pab, int numero, int capacidad){//TODO Aca capacidad puede ir a otro lado. Esta repetido CodigoDeAula.
+		codAula = new CodigoDeAula(pab,numero);
+		this.pab = pab;
+		this.numero = numero;
 		this.capacidad = capacidad;
 	}
 	
