@@ -24,15 +24,9 @@ public class Asignador {
 			map.put(a, bitSet);
 		}
 	}
-	
-	public void realizarPreasignaciones() {
-		// TODO Recorrer las preasignaciones y tacharlas.
-	}
-	
+		
 	public void asignar() {
-
 		for(Clase c: clases) {	
-	
 			List<Aula> aulas = null;
 			for(Aula a: aulas) {
 				if(c.puedeUsar(a)) {//MAS CHANGUI DE TOLERACIA QUE HABRIA QUE SACARLO DEL EXCEL.
@@ -40,20 +34,8 @@ public class Asignador {
 						//asignar.
 					}
 				}
-			}
-				
-		}
-			/* TODO 
-			* Agarro cada clase
-			* me fijo el dia y hora de la clase
-			* me fijo la cantidad de alumnos de la clase
-			* Hay que recorrer el mapa.
-			* busco un aula que cumpla con la cantidad de alumnos
-			* cuando encuentro, me fijo si esta disponible el dia y horario que necesito.
-				* si lo tengo -> asigno
-				* sino -> busco el siguiente aula.
-			*
-			*/
+			}		
+		}			
 	}
 }
 	

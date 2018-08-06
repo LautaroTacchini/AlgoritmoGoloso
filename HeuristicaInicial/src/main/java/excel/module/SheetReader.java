@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -15,7 +17,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import core.AulaProcessor;
-import core.ClaseProcessor;
+import core.PedidosProcessor;
 import domain.logic.Aula;
 
 public class SheetReader {
@@ -47,7 +49,7 @@ public class SheetReader {
 		Sheet sheet = workbook.getSheet(nombreHoja);
 		
 		for (Row row: sheet) {
-			ClaseProcessor rowProc = new ClaseProcessor();
+			PedidosProcessor rowProc = new PedidosProcessor();
 			lista = rowProc.process(row);
 		}
 		try {
@@ -58,8 +60,8 @@ public class SheetReader {
 		return lista;
 	}	
 	
-	public List<Aula> readAulas(String nombreHoja) throws Exception {		
-		List<Aula> lista = new ArrayList<Aula>();
+	public Set<Aula> readAulas(String nombreHoja) throws Exception {		
+		Set<Aula> set = new HashSet<Aula>();
 		
 		Sheet sheet = workbook.getSheet(nombreHoja);
 		
@@ -69,14 +71,14 @@ public class SheetReader {
 			if(row.getRowNum() == 0)
 				aulasProc.fillEnumMap(row);
 			else
-				lista.add(aulasProc.process(row));
+				set.add(aulasProc.process(row));
 		}
 		try {
 			workbook.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-		return lista;
+		return set;
 	}	
 }
 

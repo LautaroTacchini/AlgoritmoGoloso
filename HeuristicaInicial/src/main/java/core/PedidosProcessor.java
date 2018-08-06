@@ -9,13 +9,17 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
 import domain.logic.Clase;
+import domain.logic.CodigoDeAula;
 import domain.logic.DiaSemana;
 
-public class ClaseProcessor {
+public class PedidosProcessor {
 	
 	List<Object> aulas;
+	AulaValidator validator;
 	
-	public ClaseProcessor () {  }
+	public PedidosProcessor () { 
+		validator = new AulaValidator();
+	}
 	
 	public List<Object> process(Row row){
 		List<Object> lista = new ArrayList<Object>();
@@ -36,6 +40,7 @@ public class ClaseProcessor {
 			Date horaHasta = null;
 			DiaSemana diaSemana = null;
 			int kantInscriptos = 0;
+			int nroEdificio = 0;
 						
 			if(cell.getColumnIndex() == 0) 
 			   	nombre = cell.getStringCellValue();
@@ -43,8 +48,8 @@ public class ClaseProcessor {
 			if(cell.getColumnIndex() == 3)
 		    	diaSemana = DiaSemana.parse(cell.getStringCellValue());
 		    
-//		    if(cell.getColumnIndex() == 4)
-//		    	nroPabellon = (int) cell.getNumericCellValue();
+		    if(cell.getColumnIndex() == 4)
+		    	nroEdificio = (int) cell.getNumericCellValue();
 		   
 		    if(cell.getColumnIndex() == 7) 
 		    	horaDesde = cell.getDateCellValue();
@@ -58,10 +63,11 @@ public class ClaseProcessor {
 		    Clase clase = new Clase(cell.getRowIndex(),nombre,horaDesde,horaHasta,diaSemana,kantInscriptos);
 		    
 		    if(cell.getColumnIndex() == 6) {
-
+		    	int nroAula = (int) cell.getNumericCellValue();
+		    	
 		    	if(cell.getCellTypeEnum() != CellType.BLANK) {
-		    		System.out.println("Asignación");
-		    		
+		    		CodigoDeAula codAula = new CodigoDeAula(nroEdificio, nroAula);
+		    		validator.validate(codAula);
 		    	}
 		    	else {
 		    		System.out.println("Preferencia");

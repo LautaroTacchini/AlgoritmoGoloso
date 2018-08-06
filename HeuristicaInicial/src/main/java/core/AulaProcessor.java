@@ -14,10 +14,10 @@ public class AulaProcessor {
 	public AulaProcessor() { }	
 	
 	public EnumMap<AulaEnum, Integer> fillEnumMap(Row row) throws Exception {
+		
 		if(row.getRowNum() > 0 || enumMap!= null) {
 			throw new RuntimeException();
-		}
-		
+		}		
 		enumMap = new EnumMap<AulaEnum,Integer>(AulaEnum.class);
 				
 		for(Cell c: row) {
@@ -30,16 +30,10 @@ public class AulaProcessor {
 				}
 				enumMap.put(aulaEnum, c.getColumnIndex());
 			}
-			else {
+			else 
 				System.out.println(c.getStringCellValue());
-			}
 		}
 		if(enumMap.size() != AulaEnum.values().length) {
-//			System.out.println("------------");
-//			System.out.println(enumMap);
-//			System.out.println(enumMap.size());
-//			System.out.println(AulaEnum.values());
-//			System.out.println(AulaEnum.values().length);
 			throw new RuntimeException();
 		}
 

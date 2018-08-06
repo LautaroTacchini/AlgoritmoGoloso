@@ -1,11 +1,12 @@
 package domain.logic;
 
 public class CodigoDeAula {
-	Integer pabellon;
+		
+	Integer edificio;
 	Integer nroAula;
 	
-	public CodigoDeAula(int pabellon, int nroAula) {
-		this.pabellon = pabellon;
+	public CodigoDeAula(int edificio, int nroAula) {
+		this.edificio = edificio;
 		this.nroAula = nroAula;
 	}
 
@@ -13,7 +14,7 @@ public class CodigoDeAula {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((pabellon == 0) ? 0 : pabellon.hashCode());
+		result = prime * result + ((edificio == 0) ? 0 : edificio.hashCode());
 		result = prime * result + ((nroAula == 0) ? 0 : nroAula.hashCode());
 		return result;		
 	}
