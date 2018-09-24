@@ -18,5 +18,9 @@ public class CodigoDeAula {
 		result = prime * result + ((nroAula == 0) ? 0 : nroAula.hashCode());
 		return result;		
 	}
+	
+	public String toString() {
+		return String.valueOf(edificio) + String.valueOf(nroAula);
+	}
 
 }

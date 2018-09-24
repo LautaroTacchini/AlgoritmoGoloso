@@ -1,21 +1,17 @@
 package core;
 
-import java.io.IOException;
 import java.util.Set;
 
 import domain.logic.Aula;
 import domain.logic.CodigoDeAula;
 
 
-public class AulaValidator {
+public class CodAulaValidator {
 	
 	Set<Aula> aulas;
 	
-	public AulaValidator() { }
-	
-	public AulaValidator(Set<Aula> aulas) throws IOException {
-		this.aulas = aulas;
-	}
+	public CodAulaValidator() { }
+
 	
 	public boolean validate(CodigoDeAula codAula) {
 		//TODO implementar.

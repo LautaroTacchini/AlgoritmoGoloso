@@ -7,41 +7,57 @@ import org.apache.poi.ss.usermodel.Row;
 
 import domain.logic.Aula;
 
+/** 
+ * AulaProcessor es llamada por otra clase que lee los rows 
+ * y se encarga de leer los elementos del row y procesa las 
+ * aulas.
+ * @author lautaro
+ */
 public class AulaProcessor {
 	
-	EnumMap<AulaEnum, Integer> enumMap;
+	EnumMap<AulaEnum, Integer> columnOrder;
 	
 	public AulaProcessor() { }	
 	
-	public EnumMap<AulaEnum, Integer> fillEnumMap(Row row) throws Exception {
+	/** fillEnumMap recibe un row y se encarga de llenar un enumMap
+	 * este enumMap representa los nombres de las columnas de un archivo
+	 * asociadas a un numero de columna.
+	 */
+	public EnumMap<AulaEnum, Integer> fillColumnOrder(Row row) throws Exception {
 		
-		if(row.getRowNum() > 0 || enumMap!= null) {
+		if(row.getRowNum() > 0 || columnOrder!= null) {
 			throw new RuntimeException();
 		}		
-		enumMap = new EnumMap<AulaEnum,Integer>(AulaEnum.class);
+		columnOrder = new EnumMap<AulaEnum,Integer>(AulaEnum.class);
 				
 		for(Cell c: row) {
 			// TODO Revisar si podemos ponerle parse a esto de aca abajo.
 			AulaEnum aulaEnum = AulaEnum.map.get(c.getStringCellValue());
 			
 			if(aulaEnum != null) {
-				if(enumMap.containsKey(aulaEnum)) {
+				if(columnOrder.containsKey(aulaEnum)) {
 					throw new RuntimeException();	
 				}
-				enumMap.put(aulaEnum, c.getColumnIndex());
+				columnOrder.put(aulaEnum, c.getColumnIndex());
 			}
 			else 
 				System.out.println(c.getStringCellValue());
 		}
-		if(enumMap.size() != AulaEnum.values().length) {
+		if(columnOrder.size() != AulaEnum.values().length) {
 			throw new RuntimeException();
 		}
 
-		return enumMap;
+		return columnOrder;
 	}
 	
+	/**
+	 * Procesa los valores leidos de un row 
+	 * y devuelve un aula.
+	 * @param row
+	 * @return
+	 */
 	public Aula process(Row row) {
-		if(row.getRowNum() == 0 || enumMap == null)
+		if(row.getRowNum() == 0 || columnOrder == null)
 			throw new RuntimeException();
 		
 		int nroPab = getInt(AulaEnum.EDIFICIO,row);
@@ -52,6 +68,6 @@ public class AulaProcessor {
 	}
 	
 	private int getInt(AulaEnum aulaEnum, Row row) {
-		return (int) row.getCell(enumMap.get(aulaEnum)).getNumericCellValue();
+		return (int) row.getCell(columnOrder.get(aulaEnum)).getNumericCellValue();
 	}
 }

@@ -15,11 +15,14 @@ import domain.logic.DiaSemana;
 public class PedidosProcessor {
 	
 	List<Object> aulas;
-	AulaValidator validator;
 	
-	public PedidosProcessor () { 
-		validator = new AulaValidator();
-	}
+	public PedidosProcessor () {}
+	
+	/** Recibe un row y devuelve una lista de objectos?
+	 * 
+	 * @param row
+	 * @return
+	 */
 	
 	public List<Object> process(Row row){
 		List<Object> lista = new ArrayList<Object>();
@@ -65,12 +68,17 @@ public class PedidosProcessor {
 		    if(cell.getColumnIndex() == 6) {
 		    	int nroAula = (int) cell.getNumericCellValue();
 		    	
-		    	if(cell.getCellTypeEnum() != CellType.BLANK) {
+		    	if(cell.getCellTypeEnum() != CellType.BLANK) {//Primero ponel lo que va == y luego la negacion en el else 
 		    		CodigoDeAula codAula = new CodigoDeAula(nroEdificio, nroAula);
-		    		validator.validate(codAula);
+		    		CodAulaValidator aulaValidator = new CodAulaValidator();
+		    		aulaValidator.validate(codAula); 
+		    		// Chequear si es un codigo de aula valido.
+		    		// Validar si esa materia puede ir en ese aula.
+		    		// Ver si esta aula no fue asignada a otra materia.
+		    		// Recien aca creo la asignacion.
 		    	}
 		    	else {
-		    		System.out.println("Preferencia");
+		    		
 		    	}
 		    }
 		}

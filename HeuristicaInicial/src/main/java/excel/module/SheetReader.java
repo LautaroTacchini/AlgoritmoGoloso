@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.util.SystemOutLogger;
 
 import core.AulaProcessor;
 import core.PedidosProcessor;
@@ -69,7 +70,7 @@ public class SheetReader {
 
 		for (Row row: sheet) {
 			if(row.getRowNum() == 0)
-				aulasProc.fillEnumMap(row);
+				aulasProc.fillColumnOrder(row);
 			else
 				set.add(aulasProc.process(row));
 		}
