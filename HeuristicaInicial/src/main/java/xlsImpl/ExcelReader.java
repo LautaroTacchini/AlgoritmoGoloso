@@ -116,23 +116,22 @@ public class ExcelReader {
 		Date horaHasta = null;
 		DiaSemana diaSemana = null;
 		int kantInscriptos = 0;
-		Integer nroAula = 0;
-		Integer nroPabellon = 0;
+		String nombreAula = "";
+		String nombreEdificio = "";
 		
 		if(cell.getRowIndex() >= 2) { 
 			
-			if(cell.getColumnIndex() == 0) {
+			if(cell.getColumnIndex() == 0) 
 			   	nombre = cell.getStringCellValue();
-			}
 			
 		    if(cell.getColumnIndex() == 3)
 		    	diaSemana = DiaSemana.parse(cell.getStringCellValue());
 		    
 		    if(cell.getColumnIndex() == 4)
-		    	nroPabellon = (int) cell.getNumericCellValue();
+		    	getCellValue(cell,nombreEdificio);
 		    
 		    if(cell.getColumnIndex() == 6) 
-		    	nroAula = (int) cell.getNumericCellValue();
+		    	getCellValue(cell,nombreAula);
 		    
 		    if(cell.getColumnIndex() == 7) 
 		    	horaDesde = cell.getDateCellValue();
@@ -144,28 +143,39 @@ public class ExcelReader {
 		    	kantInscriptos = (int) cell.getNumericCellValue();		    
 		}
 		
-		Aula aula = new Aula(nroPabellon,nroAula,0);
+		Aula aula = new Aula(nombreEdificio,nombreAula,0);
 		// TODO VERIFICAR QUE EL AULA SEA VALIDA!!!!!!!!!!!!!.
 		Clase clase = new Clase(cell.getRowIndex(),nombre,horaDesde,horaHasta,diaSemana,kantInscriptos);
 		return new Asignacion(clase,aula);
 	}	
 	
 	private Aula construirAula(Cell cell) {
-		Integer pab = 0;
-		Integer nro = 0;
+		String edificio = "";
+		String nombre = "";
 		int capacidad = 0;
 		if(cell.getRowIndex() >= 2) {
 			if(cell.getColumnIndex() == 0)
-			   	pab = (int) cell.getNumericCellValue();
+			   	edificio = getCellValue(cell,edificio);
 	 
 		    if(cell.getColumnIndex() == 1)
-		    	nro = (int) cell.getNumericCellValue();
+		    	edificio = getCellValue(cell,edificio);
 		   
 		    if(cell.getColumnIndex() == 2) 
 		    	capacidad = (int) cell.getNumericCellValue();
 		}
-		return new Aula(pab,nro,capacidad);
+		return new Aula(edificio,nombre,capacidad);
 	}
 	
+	private String getCellValue(Cell c, String s) {
+		if(c.getCellTypeEnum().getCode() == Cell.CELL_TYPE_NUMERIC) {
+			s = String.valueOf((int) c.getNumericCellValue());
+			return s;
+		}
+		if(c.getCellTypeEnum().getCode() == Cell.CELL_TYPE_STRING) {
+			s = c.getStringCellValue();
+			return s;
+		}
+		return null;
+	}
 }
 

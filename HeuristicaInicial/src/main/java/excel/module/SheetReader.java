@@ -19,19 +19,25 @@ import org.apache.poi.util.SystemOutLogger;
 
 import core.AulaProcessor;
 import core.PedidosProcessor;
+import core.RowProcessor;
 import domain.logic.Aula;
+import domain.logic.CodAulaFactory;
 
 public class SheetReader {
-	File archivo;
-	FileInputStream input;
-	Workbook workbook;
+//	File archivo;
+//	FileInputStream input;
+//	Workbook workbook;
+	Sheet sheet;
+	RowProcessor rowProc;
 	
-	public SheetReader(String path) {
-		archivo = new File (path);
+	public SheetReader(String path, String nombreHoja, RowProcessor rp) {
+		File archivo = new File (path);
+		this.rowProc = rp;
 		
 		try {
-			input = new FileInputStream(archivo);
-			workbook = WorkbookFactory.create(new File(path));
+			FileInputStream input = new FileInputStream(archivo);
+			Workbook workbook = WorkbookFactory.create(archivo);
+			sheet = workbook.getSheet(nombreHoja);
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -44,42 +50,42 @@ public class SheetReader {
 		}     
 	}
 	
-	public List<Object> read(String nombreHoja) {		
+	public List<Object> read() {		
 		List<Object> lista = new ArrayList<Object>();
 		
-		Sheet sheet = workbook.getSheet(nombreHoja);
-		
 		for (Row row: sheet) {
-			PedidosProcessor rowProc = new PedidosProcessor();
-			lista = rowProc.process(row);
+			if(row.getRowNum() == 0)
+				rowProc.fillColumnOrder(row);
+			else
+				lista.add(rowProc.process(row));
 		}
 		try {
-			workbook.close();
+			sheet.getWorkbook().close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
 		return lista;
 	}	
 	
-	public Set<Aula> readAulas(String nombreHoja) throws Exception {		
-		Set<Aula> set = new HashSet<Aula>();
-		
-		Sheet sheet = workbook.getSheet(nombreHoja);
-		
-		AulaProcessor aulasProc = new AulaProcessor();
-
-		for (Row row: sheet) {
-			if(row.getRowNum() == 0)
-				aulasProc.fillColumnOrder(row);
-			else
-				set.add(aulasProc.process(row));
-		}
-		try {
-			workbook.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-		return set;
-	}	
+//	public Set<Aula> readAulas(String nombreHoja) throws Exception {		
+//		Set<Aula> set = new HashSet<Aula>();
+//		
+//		Sheet sheet = workbook.getSheet(nombreHoja);
+//		
+//		AulaProcessor aulasProc = new AulaProcessor();
+//
+//		for (Row row: sheet) {
+//			if(row.getRowNum() == 0)
+//				aulasProc.fillColumnOrder(row);
+//			else
+//				set.add(aulasProc.process(row));
+//		}
+//		try {
+//			workbook.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}	
+//		return set;
+//	}	
 }
 

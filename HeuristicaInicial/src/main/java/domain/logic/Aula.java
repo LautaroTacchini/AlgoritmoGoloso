@@ -2,15 +2,15 @@ package domain.logic;
 
 public class Aula implements Comparable<Aula>{
 	
-	CodigoDeAula codAula;
-	int pab;
-	int numero;
+	CodigoAula codAula;
+	String edificio;
+	String nombre;
 	int capacidad;
 	
-	public Aula(int pab, int numero, int capacidad){//TODO Aca capacidad puede ir a otro lado. Esta repetido CodigoDeAula.
-		codAula = new CodigoDeAula(pab,numero);
-		this.pab = pab;
-		this.numero = numero;
+	public Aula(String edificio, String nombre, int capacidad){//TODO Aca capacidad puede ir a otro lado. Esta repetido CodigoDeAula.
+		codAula = new CodigoAula(edificio,nombre);
+		this.edificio = edificio;
+		this.nombre = nombre;
 		this.capacidad = capacidad;
 	}
 	
