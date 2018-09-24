@@ -1,0 +1,9 @@
+negocio/Aula.class
+negocio/Intervalo.class
+reader/ExcelReader.class
+negocio/DiaSemana.class
+negocio/Asignador.class
+reader/FileManager.class
+reader/Writer.class
+main/Main.class
+negocio/Clase.class

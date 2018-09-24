@@ -17,11 +17,10 @@ public class Main {
 		for(Aula a: aulas) {
 			System.out.println(a);
 		}
-		
-		
+				
 		for(Aula a: aulas) {
 			System.out.println(a);
 		}
-	
+
 	}
 }
