@@ -35,10 +35,10 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		Date hrHasta = getDate(getCell(PedidoEnum.HASTA,row));
 		String dia = getCellValue(getCell(PedidoEnum.DIA,row));
 		int kant = getInt(getCell(PedidoEnum.KANT,row));
-		String aula = getCellValue(getCell(PedidoEnum.AULA,row));
 		String edificio = getCellValue(getCell(PedidoEnum.EDIFICIO,row));		
 		
 	    if(getCell(PedidoEnum.AULA,row).getCellTypeEnum() != CellType.BLANK) {
+	    	String aula = getCellValue(getCell(PedidoEnum.AULA,row));
 	    	//	String nombreAula = getCellValue(cell);
 	    	// Chequear si es un codigo de aula valido.
 	    	caf.build(edificio, aula);
@@ -72,7 +72,7 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		if(c.getCellTypeEnum() == CellType.NUMERIC) 
 			return String.valueOf((int) c.getNumericCellValue());
 		
-		throw new RuntimeException();
+		throw new RuntimeException("No se está leyendo ni un String ni un Numeric");
 	}
 
 	@Override
