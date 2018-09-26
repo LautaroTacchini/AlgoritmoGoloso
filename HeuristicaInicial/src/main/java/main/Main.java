@@ -8,8 +8,8 @@ import java.util.Set;
 import core.AulaProcessor;
 import core.PedidosProcessor;
 import domain.logic.Aula;
+import domain.logic.AulaFinder;
 import domain.logic.Clase;
-import domain.logic.CodAulaFactory;
 import excel.module.SheetReader;
 
 public class Main {
@@ -25,13 +25,14 @@ public class Main {
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Set<Aula> aulas = new HashSet<Aula>((Collection<Aula>)(List)reader.read());
 		
-		CodAulaFactory caf = new CodAulaFactory(aulas);
 		for(Aula a: aulas) {
 			System.out.println(a);
 		}
+		AulaFinder af = new AulaFinder(aulas);
 		
-		PedidosProcessor pp = new PedidosProcessor(caf);
+		PedidosProcessor pp = new PedidosProcessor(af);
 		reader = new SheetReader(path,"Pedidos",pp);
+		@SuppressWarnings("unchecked")
 		Set<Clase> clases = new HashSet<Clase>((Collection<Clase>)(List)reader.read());
 		for(Clase c: clases) {
 			System.out.println(c);

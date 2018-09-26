@@ -1,28 +1,26 @@
 package core;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.util.SystemOutLogger;
 
+import domain.logic.Asignacion;
 import domain.logic.Aula;
 import domain.logic.Clase;
-import domain.logic.CodAulaFactory;
+import domain.logic.AulaFinder;
 import domain.logic.DiaSemana;
 
 public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	
-	CodAulaFactory caf;
+	AulaFinder af;
 	
 	EnumMap<PedidoEnum, Integer> columnOrder;
 
-	public PedidosProcessor (CodAulaFactory caf) {
-		this.caf = caf;
+	public PedidosProcessor (AulaFinder af) {
+		this.af = af;
 	}
 	
 	public Object process(Row row){
@@ -37,14 +35,21 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		int kant = getInt(getCell(PedidoEnum.KANT,row));
 		String edificio = getCellValue(getCell(PedidoEnum.EDIFICIO,row));		
 		
+		// TODO agregar tema de "Tolerancia" de las aulas reales.
 	    if(getCell(PedidoEnum.AULA,row).getCellTypeEnum() != CellType.BLANK) {
-	    	String aula = getCellValue(getCell(PedidoEnum.AULA,row));
-	    	//	String nombreAula = getCellValue(cell);
-	    	// Chequear si es un codigo de aula valido.
-	    	caf.build(edificio, aula);
+	    	String nombreAula = getCellValue(getCell(PedidoEnum.AULA,row));
+	    	Aula aula = af.find(edificio, nombreAula);
+	    	
 	    	// Validar si esa materia puede ir en ese aula.
+	    	if(kant >= aula.capacidad)
+	    		throw new RuntimeException("Capacidad no valida");
+	    	
 	    	// Ver si esta aula no fue asignada a otra materia.
+	    	
+	    	
 	    	// Recien aca creo la asignacion.
+	    	Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
+	    	return new Asignacion(clase, aula);
 	    }
 	    else {
     		System.out.println("preferencia");
