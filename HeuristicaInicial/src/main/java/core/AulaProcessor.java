@@ -12,7 +12,6 @@ import domain.logic.Aula;
  * AulaProcessor es llamada por otra clase que lee los rows 
  * y se encarga de leer los elementos del row y procesa las 
  * aulas.
- * @author lautaro
  */
 public class AulaProcessor implements RowProcessor<AulaEnum> {
 	
@@ -20,42 +19,9 @@ public class AulaProcessor implements RowProcessor<AulaEnum> {
 	
 	public AulaProcessor() { }	
 	
-	/** fillEnumMap recibe un row y se encarga de llenar un enumMap
-	 * este enumMap representa los nombres de las columnas de un archivo
-	 * asociadas a un numero de columna.
-	 */
-	public EnumMap<AulaEnum, Integer> fillColumnOrder(Row row) {
-		
-		if(row.getRowNum() > 0 || columnOrder!= null) {
-			throw new RuntimeException();
-		}		
-		columnOrder = new EnumMap<AulaEnum,Integer>(AulaEnum.class);
-				
-		for(Cell c: row) {
-			// TODO Revisar si podemos ponerle parse a esto de aca abajo.
-			AulaEnum aulaEnum = AulaEnum.map.get(c.getStringCellValue());
-			
-			if(aulaEnum != null) {
-				if(columnOrder.containsKey(aulaEnum)) {
-					throw new RuntimeException();	
-				}
-				columnOrder.put(aulaEnum, c.getColumnIndex());
-			}
-			else 
-				System.out.println(c.getStringCellValue());
-		}
-		if(columnOrder.size() != AulaEnum.values().length) {
-			throw new RuntimeException();
-		}
-
-		return columnOrder;
-	}
-	
 	/**
 	 * Procesa los valores leidos de un row 
 	 * y devuelve un aula.
-	 * @param row
-	 * @return
 	 */
 	public Aula process(Row row) {
 		if(row.getRowNum() == 0 || columnOrder == null)
@@ -90,5 +56,36 @@ public class AulaProcessor implements RowProcessor<AulaEnum> {
 			return String.valueOf((int) c.getNumericCellValue());
 
 		throw new RuntimeException();
+	}
+	
+	/** fillEnumMap recibe un row y se encarga de llenar un enumMap
+	 * este enumMap representa los nombres de las columnas de un archivo
+	 * asociadas a un numero de columna.
+	 */
+	public EnumMap<AulaEnum, Integer> fillColumnOrder(Row row) {
+		
+		if(row.getRowNum() > 0 || columnOrder!= null) {
+			throw new RuntimeException();
+		}		
+		columnOrder = new EnumMap<AulaEnum,Integer>(AulaEnum.class);
+				
+		for(Cell c: row) {
+			// TODO Revisar si podemos ponerle parse a esto de aca abajo.
+			AulaEnum aulaEnum = AulaEnum.map.get(c.getStringCellValue());
+			
+			if(aulaEnum != null) {
+				if(columnOrder.containsKey(aulaEnum)) {
+					throw new RuntimeException();	
+				}
+				columnOrder.put(aulaEnum, c.getColumnIndex());
+			}
+			else 
+				System.out.println(c.getStringCellValue());
+		}
+		if(columnOrder.size() != AulaEnum.values().length) {
+			throw new RuntimeException();
+		}
+
+		return columnOrder;
 	}
 }

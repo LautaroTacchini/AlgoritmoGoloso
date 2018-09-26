@@ -12,7 +12,7 @@ public class CodAulaFactory {
 	
 	public CodigoAula build(String nombreEdificio, String nombreAula){
 		if(!validate(nombreEdificio,nombreAula))
-			throw new RuntimeException();
+			throw new RuntimeException("Código de aula no valido");
 		
 		return new CodigoAula(nombreAula, nombreEdificio);		
 	}

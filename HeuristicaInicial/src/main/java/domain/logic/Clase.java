@@ -67,7 +67,7 @@ public class Clase {
 	int compareTo(Clase that) { return this.id.compareTo(that.id); }
 	
 	public String toString() {
-		return id + nombre + cantidadInscriptos;
+		return "ID: " + id + " Nombre: "+nombre + " Kant: " + cantidadInscriptos;
 	}
 
 }

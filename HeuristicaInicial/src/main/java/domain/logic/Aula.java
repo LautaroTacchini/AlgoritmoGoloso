@@ -3,8 +3,8 @@ package domain.logic;
 public class Aula implements Comparable<Aula>{
 	
 	CodigoAula codAula;
-	String edificio;
-	String nombre;
+	public String edificio;
+	public String nombre;
 	int capacidad;
 	
 	public Aula(String edificio, String nombre, int capacidad){//TODO Aca capacidad puede ir a otro lado. Esta repetido CodigoDeAula.
