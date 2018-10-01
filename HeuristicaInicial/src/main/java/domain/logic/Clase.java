@@ -38,6 +38,8 @@ public class Clase {
 
 	int puntaje(Aula a) { return 0; }
 	
+	@Deprecated
+	// FIXME esto deberia ir al asignador.
 	public boolean puedeUsar(Aula aula) {
 		return cantidadInscriptos <= aula.capacidad; 
 	}

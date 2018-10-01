@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import core.Asignador;
 import core.AulaProcessor;
 import core.PedidosProcessor;
+import domain.logic.Asignacion;
 import domain.logic.Aula;
 import domain.logic.AulaFinder;
 import domain.logic.Clase;
@@ -29,13 +31,14 @@ public class Main {
 			System.out.println(a);
 		}
 		AulaFinder af = new AulaFinder(aulas);
-		
-		PedidosProcessor pp = new PedidosProcessor(af);
+		Asignador asig = new Asignador();
+		PedidosProcessor pp = new PedidosProcessor(af,asig);
 		reader = new SheetReader(path,"Pedidos",pp);
+		
 		@SuppressWarnings("unchecked")
-		Set<Clase> clases = new HashSet<Clase>((Collection<Clase>)(List)reader.read());
-		for(Clase c: clases) {
-			System.out.println(c);
+		Set<Asignacion> asignaciones = new HashSet<>((Collection<Asignacion>)(List)reader.read());
+		for(Asignacion a: asignaciones) {
+			System.out.println(a);
 		}
 	}
 }

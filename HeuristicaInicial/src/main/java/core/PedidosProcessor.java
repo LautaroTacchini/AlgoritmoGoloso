@@ -16,11 +16,13 @@ import domain.logic.DiaSemana;
 public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	
 	AulaFinder af;
+	Asignador asignador;
 	
 	EnumMap<PedidoEnum, Integer> columnOrder;
 
-	public PedidosProcessor (AulaFinder af) {
+	public PedidosProcessor (AulaFinder af,Asignador asig) {
 		this.af = af;
+		this.asignador = asig;
 	}
 	
 	public Object process(Row row){
@@ -40,21 +42,15 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	    	String nombreAula = getCellValue(getCell(PedidoEnum.AULA,row));
 	    	Aula aula = af.find(edificio, nombreAula);
 	    	
-	    	// Validar si esa materia puede ir en ese aula.
-	    	if(kant >= aula.capacidad)
-	    		throw new RuntimeException("Capacidad no valida");
-	    	
-	    	// Ver si esta aula no fue asignada a otra materia.
-	    	
+	    	Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
+	    	asignador.asignar(aula,clase);//TODO esto falta terminar
 	    	
 	    	// Recien aca creo la asignacion.
-	    	Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
 	    	return new Asignacion(clase, aula);
 	    }
 	    else {
-    		System.out.println("preferencia");
+    		throw new RuntimeException("No implementado");
     	}
-	    return null;
 	}
 	
 	private Cell getCell(PedidoEnum pedidoEnum, Row row) {
