@@ -6,5 +6,4 @@ public enum DiaSemana {
 	public static DiaSemana parse(String str) {
 		return valueOf(str.toUpperCase().replaceAll("ÁÉÍÓÚ", "AEIOU"));
 	}
-
 }

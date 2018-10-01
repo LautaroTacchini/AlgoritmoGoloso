@@ -10,7 +10,6 @@ import org.apache.poi.ss.usermodel.Row;
 import domain.logic.Asignacion;
 import domain.logic.Aula;
 import domain.logic.Clase;
-import domain.logic.AulaFinder;
 import domain.logic.DiaSemana;
 
 public class PedidosProcessor implements RowProcessor<PedidoEnum>{
@@ -43,14 +42,16 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	    	Aula aula = af.find(edificio, nombreAula);
 	    	
 	    	Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
-	    	asignador.asignar(aula,clase);//TODO esto falta terminar
+	    	asignador.asignar(aula,clase);
 	    	
 	    	// Recien aca creo la asignacion.
 	    	return new Asignacion(clase, aula);
 	    }
 	    else {
     		throw new RuntimeException("No implementado");
-    	}
+//	    	System.out.println("Preferencia");
+//	    	return null;
+	    }
 	}
 	
 	private Cell getCell(PedidoEnum pedidoEnum, Row row) {

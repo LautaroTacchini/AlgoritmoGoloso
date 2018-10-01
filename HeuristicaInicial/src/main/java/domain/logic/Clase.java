@@ -6,11 +6,11 @@ import java.util.Date;
 public class Clase {
 	
 	Integer id;
-	String nombre;
-	Date horaDesde, horaHasta;
+	public String nombre;
+	public Date horaDesde, horaHasta;
 	// Nota: para Calendar.DAY_OF_WEEK, SUNDAY == 1.
-	DiaSemana diaSemana;
-	int cantidadInscriptos;
+	public DiaSemana diaSemana;
+	public int cantidadInscriptos;
 
 	public Clase(Integer id,String nombre, Date horaDesde, Date horaHasta, DiaSemana d, int cantInscriptos) {
 		this.id = id;
@@ -44,7 +44,7 @@ public class Clase {
 		return cantidadInscriptos <= aula.capacidad; 
 	}
 
-	boolean seSolapaCon(Clase that) {
+	public boolean seSolapaCon(Clase that) {
 		return seSolapaCon(that.diaSemana, that.horaDesde, that.horaHasta);
 	}
 	
@@ -52,7 +52,7 @@ public class Clase {
 		return seSolapaCon(iv.dia, iv.horaInicio, iv.horaFin);
 	}
 	
-	boolean seSolapaCon(DiaSemana d, Date horaInicio, Date horaFin) {
+	public boolean seSolapaCon(DiaSemana d, Date horaInicio, Date horaFin) {
 		// Si no caen el mismo día de la semana ya está
 		if (diaSemana != d)
 			return false;

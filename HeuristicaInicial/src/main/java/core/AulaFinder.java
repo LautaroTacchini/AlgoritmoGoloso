@@ -1,6 +1,8 @@
-package domain.logic;
+package core;
 
 import java.util.Set;
+
+import domain.logic.Aula;
 
 public class AulaFinder {
 //public class CodAulaFactory {
