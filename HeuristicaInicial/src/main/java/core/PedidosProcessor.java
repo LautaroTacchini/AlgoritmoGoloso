@@ -11,6 +11,7 @@ import domain.logic.Asignacion;
 import domain.logic.Aula;
 import domain.logic.Clase;
 import domain.logic.DiaSemana;
+import domain.logic.Preferencia;
 
 public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	
@@ -36,21 +37,20 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		int kant = getInt(getCell(PedidoEnum.KANT,row));
 		String edificio = getCellValue(getCell(PedidoEnum.EDIFICIO,row));		
 		
+    	Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
+
 		// TODO agregar tema de "Tolerancia" de las aulas reales.
 	    if(getCell(PedidoEnum.AULA,row).getCellTypeEnum() != CellType.BLANK) {
 	    	String nombreAula = getCellValue(getCell(PedidoEnum.AULA,row));
 	    	Aula aula = af.find(edificio, nombreAula);
-	    	
-	    	Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
-	    	asignador.asignar(aula,clase);
-	    	
+	    	asignador.asignar(clase,aula);
 	    	// Recien aca creo la asignacion.
 	    	return new Asignacion(clase, aula);
 	    }
 	    else {
-    		throw new RuntimeException("No implementado");
-//	    	System.out.println("Preferencia");
-//	    	return null;
+	    	// TODO verificar que los edificios existen.
+	    	asignador.preferir(clase,edificio);
+	    	return new Preferencia(clase,edificio);
 	    }
 	}
 	

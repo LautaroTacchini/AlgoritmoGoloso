@@ -2,12 +2,21 @@ package domain.logic;
 
 public class Preferencia {
 	Clase clase;
-	Integer pab;
+	String edificio;
 	
-	public Preferencia(Clase clase, Integer pab){
+	public Preferencia(Clase clase, String edificio){
 		this.clase = clase;
-		this.pab = pab;
+		this.edificio = edificio;
 	}
 	
+	public Clase getClase() {
+		return clase;
+	}
+	
+	@Override
+	public String toString() {
+		return clase + "-" + edificio;
+	}
+
 
 }

@@ -23,19 +23,15 @@ public class Main {
 		AulaProcessor ap = new AulaProcessor();
 		SheetReader reader = new SheetReader(path,"Aulas1",ap);
 		Set<Aula> aulas = new HashSet<Aula>((Collection<Aula>)(List)reader.read());
-		
-		for(Aula a: aulas) {
-			System.out.println(a);
-		}
-		
+			
 		AulaFinder af = new AulaFinder(aulas);
 		Asignador asig = new Asignador();
 		PedidosProcessor pp = new PedidosProcessor(af,asig);
 
 		reader = new SheetReader(path,"Pedidos",pp);
 		
-		Set<Asignacion> asignaciones = new HashSet<>((Collection<Asignacion>)(List)reader.read());
-		for(Asignacion a: asignaciones) {
+		Set<Object> clases = new HashSet<>((Collection<Asignacion>)(List)reader.read());
+		for(Object a: clases) {
 			System.out.println(a);
 		}
 	}
