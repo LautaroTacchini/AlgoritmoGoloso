@@ -11,7 +11,6 @@ public class Preferidor {
 	}
 	
 	public Preferencia preferir(Clase clase, String edificio) {
-		
 		if(!edificios.contains(edificio)) {
 			throw new RuntimeException("No se encontró el edificio: " + edificio);	
 		}

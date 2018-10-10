@@ -16,9 +16,10 @@ import excel.module.SheetReader;
 
 public class Main {
 	
+	public static String EDIFICIO_INDISTINTO = "INDISTINTO";
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void main(String[] args) throws Exception{
-				
 		String path = "instancias/pedidos-2018-1-mod.xls";
 		
 		AulaProcessor ap = new AulaProcessor();
@@ -32,14 +33,15 @@ public class Main {
 		for(Aula a: aulas) {
 			edificios.add(a.edificio);
 		}
+		edificios.add(EDIFICIO_INDISTINTO);
 		Preferidor pref = new Preferidor(edificios);
 		
 		PedidosProcessor pp = new PedidosProcessor(af,asig,pref);
 
 		reader = new SheetReader(path,"Pedidos",pp);
 		
-		Set<Object> clases = new HashSet<>((Collection<Asignacion>)(List)reader.read());
-		for(Object a: clases) {
+		Set<Object> pedidos = new HashSet<>((Collection<Asignacion>)(List)reader.read());
+		for(Object a: pedidos) {
 			System.out.println(a);
 		}
 	}

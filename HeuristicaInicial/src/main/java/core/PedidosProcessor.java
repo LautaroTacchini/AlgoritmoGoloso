@@ -15,6 +15,7 @@ import domain.Clase;
 import domain.DiaSemana;
 import domain.Preferencia;
 import domain.Preferidor;
+import main.Main;
 
 public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	
@@ -41,7 +42,17 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		Date hrHasta = getDate(getCell(PedidoEnum.HASTA,row));
 		String dia = getCellValue(getCell(PedidoEnum.DIA,row));
 		int kant = getInt(getCell(PedidoEnum.KANT,row));
-		String edificio = getCellValue(getCell(PedidoEnum.EDIFICIO,row));		
+		
+		String edificio;
+		Cell c = getCell(PedidoEnum.EDIFICIO,row);
+		if(c.getCellTypeEnum() == CellType.BLANK) {
+			edificio = Main.EDIFICIO_INDISTINTO;
+		} else {
+			edificio = getCellValue(c);		
+			if(edificio.equals("0")) {
+				edificio = Main.EDIFICIO_INDISTINTO;
+			}
+		}
 		
     	Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
 
@@ -54,13 +65,12 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	    	return asignador.asignar(clase,aula);
 	    }
 	    else {
-	    	// TODO verificar que los edificios existen.
 	    	return preferidor.preferir(clase, edificio);
 	    }
 	}
 	
 	private Cell getCell(PedidoEnum pedidoEnum, Row row) {
-		return row.getCell(columnOrder.get(pedidoEnum));
+		return row.getCell(columnOrder.get(pedidoEnum),Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 	}
 	
 	private int getInt(Cell cell) {
