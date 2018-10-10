@@ -1,4 +1,4 @@
-package domain.logic;
+package domain;
 
 // Como código de aula ahora está chequeado entonces no es facil hacer un map que sea de codigo de aula en Aula.
 // Como no se puede hacer un Map, es necesario hacer una busqueda lineal.

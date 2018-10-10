@@ -5,12 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import core.Asignador;
 import core.AulaFinder;
 import core.AulaProcessor;
 import core.PedidosProcessor;
-import domain.logic.Asignacion;
-import domain.logic.Aula;
+import domain.Asignacion;
+import domain.Asignador;
+import domain.Aula;
+import domain.Preferidor;
 import excel.module.SheetReader;
 
 public class Main {
@@ -26,7 +27,14 @@ public class Main {
 			
 		AulaFinder af = new AulaFinder(aulas);
 		Asignador asig = new Asignador();
-		PedidosProcessor pp = new PedidosProcessor(af,asig);
+		
+		Set<String> edificios = new HashSet<>();
+		for(Aula a: aulas) {
+			edificios.add(a.edificio);
+		}
+		Preferidor pref = new Preferidor(edificios);
+		
+		PedidosProcessor pp = new PedidosProcessor(af,asig,pref);
 
 		reader = new SheetReader(path,"Pedidos",pp);
 		

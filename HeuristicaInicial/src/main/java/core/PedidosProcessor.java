@@ -2,27 +2,33 @@ package core;
 
 import java.util.Date;
 import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
-import domain.logic.Asignacion;
-import domain.logic.Aula;
-import domain.logic.Clase;
-import domain.logic.DiaSemana;
-import domain.logic.Preferencia;
+import domain.Asignador;
+import domain.Aula;
+import domain.Clase;
+import domain.DiaSemana;
+import domain.Preferencia;
+import domain.Preferidor;
 
 public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	
 	AulaFinder af;
 	Asignador asignador;
+	Preferidor preferidor;
 	
 	EnumMap<PedidoEnum, Integer> columnOrder;
 
-	public PedidosProcessor (AulaFinder af,Asignador asig) {
+	
+	public PedidosProcessor (AulaFinder af,Asignador asig, Preferidor pref) {
 		this.af = af;
 		this.asignador = asig;
+		preferidor = pref;
 	}
 	
 	public Object process(Row row){
@@ -43,14 +49,13 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	    if(getCell(PedidoEnum.AULA,row).getCellTypeEnum() != CellType.BLANK) {
 	    	String nombreAula = getCellValue(getCell(PedidoEnum.AULA,row));
 	    	Aula aula = af.find(edificio, nombreAula);
-	    	asignador.asignar(clase,aula);
+
 	    	// Recien aca creo la asignacion.
-	    	return new Asignacion(clase, aula);
+	    	return asignador.asignar(clase,aula);
 	    }
 	    else {
 	    	// TODO verificar que los edificios existen.
-	    	asignador.preferir(clase,edificio);
-	    	return new Preferencia(clase,edificio);
+	    	return preferidor.preferir(clase, edificio);
 	    }
 	}
 	
@@ -74,7 +79,7 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		if(c.getCellTypeEnum() == CellType.NUMERIC) 
 			return String.valueOf((int) c.getNumericCellValue());
 		
-		throw new RuntimeException("No se está leyendo ni un String ni un Numeric");
+		throw new RuntimeException("Formato no valido");
 	}
 
 	@Override
@@ -94,8 +99,6 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 				}
 				columnOrder.put(pedidoEnum, c.getColumnIndex());
 			}
-			//else 
-				//System.out.println(c.getStringCellValue());
 		}
 		if(columnOrder.size() != PedidoEnum.values().length) {
 			throw new RuntimeException();

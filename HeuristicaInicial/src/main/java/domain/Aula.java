@@ -1,4 +1,4 @@
-package domain.logic;
+package domain;
 
 public class Aula implements Comparable<Aula>{
 	

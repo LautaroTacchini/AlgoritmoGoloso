@@ -2,7 +2,7 @@ package core;
 
 import java.util.Set;
 
-import domain.logic.Aula;
+import domain.Aula;
 
 public class AulaFinder {
 //public class CodAulaFactory {

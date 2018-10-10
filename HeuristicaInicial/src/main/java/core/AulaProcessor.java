@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
-import domain.logic.Aula;
+import domain.Aula;
 
 /** 
  * AulaProcessor es llamada por otra clase que lee los rows 
