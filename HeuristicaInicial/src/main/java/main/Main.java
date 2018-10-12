@@ -1,12 +1,16 @@
 package main;
 
+import java.util.BitSet;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import core.AulaFinder;
 import core.AulaProcessor;
+import core.Heuristica;
 import core.PedidosProcessor;
 import domain.Asignador;
 import domain.Aula;
@@ -27,7 +31,8 @@ public class Main {
 		Set<Aula> aulas = new HashSet<Aula>((Collection<Aula>)(List)reader.read());
 			
 		AulaFinder af = new AulaFinder(aulas);
-		Asignador asig = new Asignador();
+		Map<Aula,BitSet> disponibilidad = new HashMap <>(); //aca voy tachando	
+		Asignador asig = new Asignador(disponibilidad);
 		
 		Set<String> edificios = new HashSet<>();
 		for(Aula a: aulas) {
@@ -39,10 +44,13 @@ public class Main {
 		PedidosProcessor pp = new PedidosProcessor(af,asig,pref);
 
 		reader = new SheetReader(path,"Pedidos",pp);
-		
+
 		Set<Preferencia> preferencias = new HashSet<>((Collection<Preferencia>)(List)reader.read());
 		for(Preferencia a: preferencias) {
 			System.out.println(a);
 		}
+		Heuristica heu = new Heuristica(asig,preferencias,aulas,disponibilidad);
+		System.out.println(disponibilidad);
+		heu.asignarPorKant();
 	}
 }

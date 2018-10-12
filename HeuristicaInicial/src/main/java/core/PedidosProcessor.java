@@ -23,7 +23,6 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	
 	EnumMap<PedidoEnum, Integer> columnOrder;
 
-	
 	public PedidosProcessor (AulaFinder af,Asignador asig, Preferidor pref) {
 		this.af = af;
 		this.asignador = asig;
@@ -60,8 +59,9 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	    	Aula aula = af.find(edificio, nombreAula);
 
 	    	// Recien aca creo la asignacion.
+	    	asignador.validarCapacidad(clase,aula);
 	    	asignador.asignar(clase,aula);
-	    	return null; 
+	    	return null;
 	    }
 	    else {
 	    	return preferidor.preferir(clase, edificio);	    	

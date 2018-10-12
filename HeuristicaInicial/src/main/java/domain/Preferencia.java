@@ -1,16 +1,12 @@
 package domain;
 
 public class Preferencia {
-	Clase clase;
-	String edificio;
+	public Clase clase;
+	public String edificio;
 	
 	Preferencia(Clase clase, String edificio){
 		this.clase = clase;
 		this.edificio = edificio;
-	}
-	
-	public Clase getClase() {
-		return clase;
 	}
 	
 	@Override
