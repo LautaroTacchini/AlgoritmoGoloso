@@ -8,9 +8,9 @@ import java.util.Set;
 import core.AulaFinder;
 import core.AulaProcessor;
 import core.PedidosProcessor;
-import domain.Asignacion;
 import domain.Asignador;
 import domain.Aula;
+import domain.Preferencia;
 import domain.Preferidor;
 import excel.module.SheetReader;
 
@@ -40,8 +40,8 @@ public class Main {
 
 		reader = new SheetReader(path,"Pedidos",pp);
 		
-		Set<Object> pedidos = new HashSet<>((Collection<Asignacion>)(List)reader.read());
-		for(Object a: pedidos) {
+		Set<Preferencia> preferencias = new HashSet<>((Collection<Preferencia>)(List)reader.read());
+		for(Preferencia a: preferencias) {
 			System.out.println(a);
 		}
 	}

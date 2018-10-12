@@ -45,7 +45,10 @@ public class SheetReader {
 			if(row.getRowNum() == 0)
 				rowProc.fillColumnOrder(row);
 			else if(row.getCell(0) != null) {
-				lista.add(rowProc.process(row));				
+				// FIXME parche inmundo para discriminar por preferencia.
+				Object p = rowProc.process(row);
+				if(p != null)
+					lista.add(p);				
 			}
 			else {
 				throw new RuntimeException("No soporta filas en blanco");

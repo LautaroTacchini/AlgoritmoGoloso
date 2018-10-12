@@ -2,8 +2,6 @@ package core;
 
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -32,7 +30,7 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		preferidor = pref;
 	}
 	
-	public Object process(Row row){
+	public Preferencia process(Row row){
 		
 		if(row.getRowNum() == 0 || columnOrder == null)
 			throw new RuntimeException();
@@ -54,7 +52,7 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 			}
 		}
 		
-    	Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
+		Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
 
 		// TODO agregar tema de "Tolerancia" de las aulas reales.
 	    if(getCell(PedidoEnum.AULA,row).getCellTypeEnum() != CellType.BLANK) {
@@ -62,11 +60,13 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	    	Aula aula = af.find(edificio, nombreAula);
 
 	    	// Recien aca creo la asignacion.
-	    	return asignador.asignar(clase,aula);
+	    	asignador.asignar(clase,aula);
+	    	return null; 
 	    }
 	    else {
-	    	return preferidor.preferir(clase, edificio);
+	    	return preferidor.preferir(clase, edificio);	    	
 	    }
+	  
 	}
 	
 	private Cell getCell(PedidoEnum pedidoEnum, Row row) {
