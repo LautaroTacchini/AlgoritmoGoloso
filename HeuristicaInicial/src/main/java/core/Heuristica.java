@@ -17,19 +17,19 @@ import domain.Preferencia;
 
 public class Heuristica {
 	
-	Asignador asignador;
+	Asignador asig;
 	Set<Aula> aulas;
 	List<Aula> listaAulas;
 	Map<Aula,BitSet> disp;
 	
-	public Heuristica(Asignador asig, Set<Aula> aulas, Map<Aula, BitSet> disp){
-		asignador = asig;
+	public Heuristica(Set<Aula> aulas, Map<Aula, BitSet> disp){
+		
+		asig = new Asignador(disp);
 		this.aulas = aulas;
 		this.disp = disp;
 		
 		listaAulas = new ArrayList<>(aulas);
 		Collections.sort(listaAulas, new AulaComparador());
-		System.out.println(listaAulas);
 	}
 	
 	public Set<Asignacion> asignar(Set<Preferencia> prefs) {
@@ -38,18 +38,12 @@ public class Heuristica {
 		
 		// Aca me fijo que aula engancha con la preferencia
 		// luego me fijo la disponibilidad
-		for(Aula a: listaAulas) {			
-			if(max.clase.puedeUsar(a) && horarioDisp()) {
-				asignador.asignar(max.clase,a);	
-			}
+		for(Aula a: listaAulas) {		
+			ret.add(asig.asignar(max.clase,a));
 		}
 		return ret;
 	}
 	
-	private boolean horarioDisp() {
-		throw new RuntimeException("No implementado");
-	}
-
 	private Preferencia maxKant(Set<Preferencia> prefs ) {
 		Preferencia max = Collections.max(prefs, new Comparator<Preferencia>() {
 			@Override

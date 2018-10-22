@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Asignador {
-	Map<Aula,BitSet> disponibilidad;
+	public Map<Aula,BitSet> disponibilidad;
 			
 	public Asignador(Map<Aula,BitSet> disp) {
 		disponibilidad = disp;
@@ -22,16 +22,27 @@ public class Asignador {
     		bitset = new BitSet(24*2*7);
     		disponibilidad.put(aula, bitset);
     	}
-    	
     	int desde = obtenerIndice(clase.diaSemana, clase.horaDesde);
     	int hasta = obtenerIndice(clase.diaSemana, clase.horaHasta);
-    	BitSet intervaloClase = bitset.get(desde,hasta);
+    	
+    	if(sePuedeAsignar(clase,aula)) {
+    		disponibilidad.get(aula).set(desde, hasta);
+    		return new Asignacion(clase,aula);
+    	}
+    	throw new RuntimeException("No se puede asignar");
+	}
+	
+	public boolean sePuedeAsignar(Clase clase, Aula aula) {
+
+    	int desde = obtenerIndice(clase.diaSemana, clase.horaDesde);
+    	int hasta = obtenerIndice(clase.diaSemana, clase.horaHasta);
+    	BitSet intervaloClase = disponibilidad.get(aula).get(desde,hasta);
     	
     	// Si el intervalo correspondiente a ese dia está vacío, significa que el aula está disponible en ese horario.
-    	if(intervaloClase.isEmpty()) 
-    		bitset.set(desde, hasta);
-    	
-    	return new Asignacion(clase,aula);
+    	if(intervaloClase.isEmpty()) { 
+    		return true;
+    	}
+    	return false;    	
 	}
 
 	public void validarCapacidad(Clase clase, Aula aula) {

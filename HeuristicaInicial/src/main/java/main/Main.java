@@ -47,10 +47,11 @@ public class Main {
 		reader = new SheetReader(path,"Pedidos",pp);
 
 		Set<Preferencia> preferencias = new HashSet<>((Collection<Preferencia>)(List)reader.read());
-		Heuristica heu = new Heuristica(asig,aulas,disponibilidad);
-		System.out.println(disponibilidad);
+		Heuristica heu = new Heuristica(aulas,disponibilidad);
 		Set<Asignacion> asignacionesF = heu.asignar(preferencias);
 		
-		System.out.println(asignacionesF.size());
+		System.out.println(asignacionesF);
+		System.out.println(disponibilidad);
+		
 	}
 }
