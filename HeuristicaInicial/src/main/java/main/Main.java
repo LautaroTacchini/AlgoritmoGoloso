@@ -12,6 +12,7 @@ import core.AulaFinder;
 import core.AulaProcessor;
 import core.Heuristica;
 import core.PedidosProcessor;
+import domain.Asignacion;
 import domain.Asignador;
 import domain.Aula;
 import domain.Preferencia;
@@ -46,11 +47,10 @@ public class Main {
 		reader = new SheetReader(path,"Pedidos",pp);
 
 		Set<Preferencia> preferencias = new HashSet<>((Collection<Preferencia>)(List)reader.read());
-		for(Preferencia a: preferencias) {
-			System.out.println(a);
-		}
-		Heuristica heu = new Heuristica(asig,preferencias,aulas,disponibilidad);
+		Heuristica heu = new Heuristica(asig,aulas,disponibilidad);
 		System.out.println(disponibilidad);
-		heu.asignarPorKant();
+		Set<Asignacion> asignacionesF = heu.asignar(preferencias);
+		
+		System.out.println(asignacionesF.size());
 	}
 }

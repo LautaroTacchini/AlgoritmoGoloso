@@ -1,39 +1,57 @@
 package core;
 
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import domain.Asignacion;
 import domain.Asignador;
 import domain.Aula;
+import domain.AulaComparador;
 import domain.Preferencia;
 
 public class Heuristica {
 	
 	Asignador asignador;
-	Set<Preferencia> preferencias;
 	Set<Aula> aulas;
-	Map<Aula,BitSet> disponibilidad;
+	List<Aula> listaAulas;
+	Map<Aula,BitSet> disp;
 	
-	public Heuristica(Asignador asig, Set<Preferencia> prefs, Set<Aula> aulas, Map<Aula, BitSet> disp){
+	public Heuristica(Asignador asig, Set<Aula> aulas, Map<Aula, BitSet> disp){
 		asignador = asig;
-		preferencias = prefs;
 		this.aulas = aulas;
-		disponibilidad = disp;		
+		this.disp = disp;
+		
+		listaAulas = new ArrayList<>(aulas);
+		Collections.sort(listaAulas, new AulaComparador());
+		System.out.println(listaAulas);
 	}
 	
-	public void asignarPorKant () {
-		Preferencia max = maxKant();
+	public Set<Asignacion> asignar(Set<Preferencia> prefs) {
+		Set<Asignacion> ret = new HashSet<>();
+		Preferencia max = maxKant(prefs);
 		
-		for(Aula a: aulas) {			
-			asignador.asignar(max.clase,a);	
+		// Aca me fijo que aula engancha con la preferencia
+		// luego me fijo la disponibilidad
+		for(Aula a: listaAulas) {			
+			if(max.clase.puedeUsar(a) && horarioDisp()) {
+				asignador.asignar(max.clase,a);	
+			}
 		}
+		return ret;
+	}
+	
+	private boolean horarioDisp() {
+		throw new RuntimeException("No implementado");
 	}
 
-	private Preferencia maxKant() {
-		Preferencia max = Collections.max(preferencias , new Comparator<Preferencia>() {
+	private Preferencia maxKant(Set<Preferencia> prefs ) {
+		Preferencia max = Collections.max(prefs, new Comparator<Preferencia>() {
 			@Override
 			public int compare(Preferencia p1, Preferencia p2) {
 				int cmp;
@@ -47,7 +65,5 @@ public class Heuristica {
 		    }
 		});
 		return max;
-	}
-	
-	
+	}	
 }

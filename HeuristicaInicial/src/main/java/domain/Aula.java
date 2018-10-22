@@ -13,12 +13,12 @@ public class Aula implements Comparable<Aula>{
 		this.nombre = nombre;
 		this.capacidad = capacidad;
 	}
-	
+		
 	public int compareTo(Aula that) {
 		return this.codAula.hashCode() - that.codAula.hashCode();
 	}
 	
 	public String toString() {
-		return codAula.toString();
+		return nombre;
 	}
 }
