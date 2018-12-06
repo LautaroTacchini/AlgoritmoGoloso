@@ -30,8 +30,9 @@ public class AulaProcessor implements RowProcessor<AulaEnum> {
 		String nombreEdificio = getCellValue(getCell(AulaEnum.EDIFICIO,row));
 		String nombreAula = getCellValue(getCell(AulaEnum.AULA,row));
 		int capacidad = getInt(getCell(AulaEnum.CAPACIDAD,row));
+		int pizarrones = getInt(getCell(AulaEnum.PIZARRONES,row));
 		
-		return new Aula(nombreEdificio, nombreAula,capacidad);
+		return new Aula(nombreEdificio, nombreAula,capacidad,pizarrones);
 	}
 	
 	private Cell getCell(AulaEnum aulaEnum, Row row) {

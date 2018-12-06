@@ -2,11 +2,14 @@ package core;
 
 import java.util.Date;
 import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
+import domain.Asignacion;
 import domain.Asignador;
 import domain.Aula;
 import domain.Clase;
@@ -20,6 +23,7 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	AulaFinder af;
 	Asignador asignador;
 	Preferidor preferidor;
+	Set<Asignacion> preasignaciones = new HashSet<Asignacion>();
 	
 	EnumMap<PedidoEnum, Integer> columnOrder;
 
@@ -39,7 +43,29 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		Date hrHasta = getDate(getCell(PedidoEnum.HASTA,row));
 		String dia = getCellValue(getCell(PedidoEnum.DIA,row));
 		int kant = getInt(getCell(PedidoEnum.KANT,row));
+		int minPizarrones = getInt(getCell(PedidoEnum.MINPIZARRONES,row));
 		
+		String edificio = getEdifPref(row);
+		
+		Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant, edificio,minPizarrones);
+
+		// TODO agregar tema de "Tolerancia" de las aulas reales.
+	    if(getCell(PedidoEnum.AULA,row).getCellTypeEnum() != CellType.BLANK) {
+	    	String nombreAula = getCellValue(getCell(PedidoEnum.AULA,row));
+	    	Aula aula = af.find(edificio, nombreAula);
+
+	    	// Recien aca creo la asignacion.
+	    	asignador.validarCapacidad(clase,aula);
+	    	preasignaciones.add(asignador.asignar(clase,aula));
+	    	return null;
+	    }
+	    else {
+	    	return preferidor.preferir(clase, edificio);	    	
+	    }
+	  
+	}
+
+	private String getEdifPref(Row row) {
 		String edificio;
 		Cell c = getCell(PedidoEnum.EDIFICIO,row);
 		if(c.getCellTypeEnum() == CellType.BLANK) {
@@ -50,23 +76,7 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 				edificio = Main.EDIFICIO_INDISTINTO;
 			}
 		}
-		
-		Clase clase = new Clase(row.getRowNum(),nombre,hrDesde,hrHasta,DiaSemana.parse(dia), kant);
-
-		// TODO agregar tema de "Tolerancia" de las aulas reales.
-	    if(getCell(PedidoEnum.AULA,row).getCellTypeEnum() != CellType.BLANK) {
-	    	String nombreAula = getCellValue(getCell(PedidoEnum.AULA,row));
-	    	Aula aula = af.find(edificio, nombreAula);
-
-	    	// Recien aca creo la asignacion.
-	    	asignador.validarCapacidad(clase,aula);
-	    	asignador.asignar(clase,aula);
-	    	return null;
-	    }
-	    else {
-	    	return preferidor.preferir(clase, edificio);	    	
-	    }
-	  
+		return edificio;
 	}
 	
 	private Cell getCell(PedidoEnum pedidoEnum, Row row) {
@@ -92,7 +102,6 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 		throw new RuntimeException("Formato no valido");
 	}
 
-	@Override
 	public EnumMap<PedidoEnum, Integer> fillColumnOrder(Row row) {
 		if(row.getRowNum() > 0 || columnOrder!= null) {
 			throw new RuntimeException();

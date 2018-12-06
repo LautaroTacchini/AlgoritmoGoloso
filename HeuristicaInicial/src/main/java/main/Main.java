@@ -2,7 +2,6 @@ package main;
 
 import java.util.BitSet;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import core.AulaFinder;
 import core.AulaProcessor;
 import core.Heuristica;
 import core.PedidosProcessor;
-import domain.Asignacion;
 import domain.Asignador;
 import domain.Aula;
 import domain.Preferencia;
@@ -32,12 +30,12 @@ public class Main {
 		Set<Aula> aulas = new HashSet<Aula>((Collection<Aula>)(List)reader.read());
 			
 		AulaFinder af = new AulaFinder(aulas);
-		Map<Aula,BitSet> disponibilidad = new HashMap <>(); //aca voy tachando	
+		Map<Aula,BitSet> disponibilidad = Asignador.crearDisponibilidad(aulas); //aca voy tachando	
 		Asignador asig = new Asignador(disponibilidad);
 		
-		Set<String> edificios = new HashSet<>();
+		Set<String> edificios = new HashSet<String>();
 		for(Aula a: aulas) {
-			edificios.add(a.edificio);
+			edificios.add(a.edificio); 
 		}
 		edificios.add(EDIFICIO_INDISTINTO);
 		Preferidor pref = new Preferidor(edificios);
@@ -46,12 +44,16 @@ public class Main {
 
 		reader = new SheetReader(path,"Pedidos",pp);
 
-		Set<Preferencia> preferencias = new HashSet<>((Collection<Preferencia>)(List)reader.read());
+		Set<Preferencia> preferencias = new HashSet<Preferencia>((Collection<Preferencia>)(List)reader.read());
 		Heuristica heu = new Heuristica(aulas,disponibilidad);
-		Set<Asignacion> asignacionesF = heu.asignar(preferencias);
+		heu.asignar(preferencias);
 		
-		System.out.println(asignacionesF);
 		System.out.println(disponibilidad);
+		
+		//TODO correr todas las instancias contra el solver y ver que puntajes dan.
+		// de la corrida anterior tomar las asignaciones, ya se que puntaje tienen y se la asignacion
+		// despues hay que tomar esa asignacion, considerada preasignacion y correrla con mi puntuador
+		// para ver si los resultados coinciden.
 		
 	}
 }

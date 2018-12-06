@@ -5,14 +5,16 @@ import java.util.Date;
 
 public class Clase {
 	
-	Integer id;
+	public Integer id;
 	public String nombre;
 	public Date horaDesde, horaHasta;
 	// Nota: para Calendar.DAY_OF_WEEK, SUNDAY == 1.
 	public DiaSemana diaSemana;
 	public int cantidadInscriptos;
+	public String edifPreferido;
+	public int minimoPizarrones;
 
-	public Clase(Integer id,String nombre, Date horaDesde, Date horaHasta, DiaSemana d, int cantInscriptos) {
+	public Clase(Integer id,String nombre, Date horaDesde, Date horaHasta, DiaSemana d, int cantInscriptos, String edifPreferido, int minimoPizarrones) {
 		this.id = id;
 		this.nombre = nombre;
 		assert horaDesde.after(horaHasta);
@@ -21,6 +23,8 @@ public class Clase {
 		diaSemana = d;
 		assert 0 <= cantInscriptos;
 		cantidadInscriptos = cantInscriptos;
+		this.edifPreferido = edifPreferido;
+		this.minimoPizarrones = minimoPizarrones;
 	}
 	
 	Intervalo minutoInicial() {
@@ -69,7 +73,7 @@ public class Clase {
 	int compareTo(Clase that) { return this.id.compareTo(that.id); }
 	
 	public String toString() {
-		return "ID: " + id + " Nombre: "+nombre + " Kant: " + cantidadInscriptos;
+		return "{ID: " + id + " Nombre: "+nombre + " Kant: " + cantidadInscriptos +"}";
 	}
 
 }

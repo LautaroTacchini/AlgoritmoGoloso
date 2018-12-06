@@ -5,9 +5,9 @@ import java.util.Map;
 
 // otro nombre ORDEN: COLOCACION DE LAS COSAS
 public enum PedidoEnum {
-	NOMBRE,DESDE,HASTA,DIA,KANT,AULA,EDIFICIO;
+	NOMBRE,DESDE,HASTA,DIA,KANT,AULA,EDIFICIO,MINPIZARRONES;
 	
-	static Map<String,PedidoEnum> map = new HashMap<>();
+	static Map<String,PedidoEnum> map = new HashMap<String,PedidoEnum>();
 
 	//FIXME esto está hardcodeado, habría que definir los nombres que se encuentran en el excel desde el archivo 
 	//		de configuración.
@@ -19,6 +19,7 @@ public enum PedidoEnum {
 		map.put("Kant",KANT);
 		map.put("Aula",AULA);
 		map.put("Pab.",EDIFICIO);
+		map.put("Pizarrones", MINPIZARRONES);
 	}
 	
 }
