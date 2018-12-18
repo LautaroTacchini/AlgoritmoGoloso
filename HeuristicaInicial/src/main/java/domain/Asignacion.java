@@ -1,10 +1,10 @@
 package domain;
 
 public class Asignacion {
-	Clase clase;
-	Aula aula;
+	public Clase clase;
+	public Aula aula;
 	
-	Asignacion (Clase c, Aula a) {
+	public Asignacion (Clase c, Aula a) {
 		clase = c;
 		aula = a;
 	}

@@ -23,7 +23,7 @@ public class PedidosProcessor implements RowProcessor<PedidoEnum>{
 	AulaFinder af;
 	Asignador asignador;
 	Preferidor preferidor;
-	Set<Asignacion> preasignaciones = new HashSet<Asignacion>();
+	public Set<Asignacion> preasignaciones = new HashSet<Asignacion>();
 	
 	EnumMap<PedidoEnum, Integer> columnOrder;
 

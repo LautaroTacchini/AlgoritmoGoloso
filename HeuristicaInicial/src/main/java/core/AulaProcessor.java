@@ -80,8 +80,8 @@ public class AulaProcessor implements RowProcessor<AulaEnum> {
 				}
 				columnOrder.put(aulaEnum, c.getColumnIndex());
 			}
-			else 
-				System.out.println(c.getStringCellValue());
+//			else 
+//				System.out.println(c.getStringCellValue());
 		}
 		if(columnOrder.size() != AulaEnum.values().length) {
 			throw new RuntimeException();
